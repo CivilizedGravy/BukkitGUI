@@ -8,16 +8,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.text.DefaultCaret;
 
 public class BukkitGui extends JFrame {
 
@@ -31,16 +30,13 @@ public class BukkitGui extends JFrame {
 	public JButton chatlog;
 	public int scrl = 300;
 	public JPanel jp = new JPanel();
-	
-	
-	//log
+
+	// log
 	public JPanel list = new JPanel();
-	
 
 	public JTextArea msgLog;
 	public JTextField cmd;
-	public  JScrollPane sbrText;
-	public ChatLogButton cb = new ChatLogButton("Chat Log", 400, 300);
+	public JScrollPane sbrText;
 
 	public BukkitGui() {
 
@@ -50,7 +46,8 @@ public class BukkitGui extends JFrame {
 
 					BufferedWriter writer = new BufferedWriter(
 							new OutputStreamWriter(
-									StartBukkitServerEvent.p.getOutputStream()));
+									StartBukkitServerListener.p
+											.getOutputStream()));
 					String input = "stop";
 					input += "\n";
 
@@ -65,8 +62,6 @@ public class BukkitGui extends JFrame {
 			}
 		});
 
-		
-		
 		jp.setLayout(new FlowLayout());
 		list.setLayout(new FlowLayout());
 		setLayout(new FlowLayout());
@@ -78,7 +73,7 @@ public class BukkitGui extends JFrame {
 			dl.dlBukkit();
 		}
 
-		//setResizable(false);
+		// setResizable(false);
 		setSize(650, 436);
 
 		setTitle("BukkitGui");
@@ -100,50 +95,52 @@ public class BukkitGui extends JFrame {
 		msgLog.setPreferredSize(new Dimension(630, scrl));
 		msgLog.setEditable(false);
 		sbrText.setPreferredSize(new Dimension(630, 300));
-		cmd.setPreferredSize(new Dimension(630 , 25));
+		cmd.setPreferredSize(new Dimension(630, 25));
 		cmd.addKeyListener(new KeyListener() {
-			
-			
+
 			public void keyTyped(KeyEvent t) {
-				
+
 			}
-			
+
 			public void keyReleased(KeyEvent r) {
-				
+
 			}
-			
+
 			public void keyPressed(KeyEvent p) {
-				if(p.getKeyCode() == KeyEvent.VK_ENTER){
+				if (p.getKeyCode() == KeyEvent.VK_ENTER) {
 					String input = new String();
 					try {
-						
-						BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(StartBukkitServerEvent.p.getOutputStream()));
+
+						BufferedWriter writer = new BufferedWriter(
+								new OutputStreamWriter(
+										StartBukkitServerListener.p
+												.getOutputStream()));
 						input = cmd.getText();
 						input += "\n";
-						
-							writer.write(input);
-							writer.flush();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+
+						writer.write(input);
+						writer.flush();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					cmd.setText("");
 					System.out.println(input);
 				}
 			}
 		});
-		
+
 		msgLog.setLineWrap(true);
 		stserver = new JButton("Start Bukkit Server");
 		stopserver = new JButton("Stop Server");
 
 		reload = new JButton("Reload Server");
-		//chatlog = new JButton("ChatLog");
-		stserver.addActionListener(new StartBukkitServerEvent(this));
+		// chatlog = new JButton("ChatLog");
+		stserver.addActionListener(new StartBukkitServerListener(this));
 
-		stopserver.addActionListener(new StopServerEvent(this));
-		reload.addActionListener(new ReloadSeverEvent(this));
-		//chatlog.addActionListener(cb);
+		stopserver.addActionListener(new StopServerListener(this));
+		reload.addActionListener(new ReloadServerListener(this));
+		// chatlog.addActionListener(cb);
 
 		stopserver.setEnabled(false);
 		reload.setEnabled(false);
@@ -154,10 +151,10 @@ public class BukkitGui extends JFrame {
 
 		stopserver.setPreferredSize(new Dimension(150, 50));
 		reload.setPreferredSize(new Dimension(150, 50));
-		//chatlog.setPreferredSize(new Dimension(150, 50));
-		
+		// chatlog.setPreferredSize(new Dimension(150, 50));
+
 		jp.add(stserver, BorderLayout.NORTH);
-		//jp.add(chatlog, BorderLayout.NORTH);
+		// jp.add(chatlog, BorderLayout.NORTH);
 		jp.add(stopserver, BorderLayout.NORTH);
 		jp.add(reload, BorderLayout.NORTH);
 		list.add(sbrText, BorderLayout.NORTH);
@@ -165,20 +162,20 @@ public class BukkitGui extends JFrame {
 
 		getContentPane().add(jp, BorderLayout.NORTH);
 		getContentPane().add(list, BorderLayout.WEST);
-		list.revalidate();
+	//	list.revalidate();
 		// add memory allocation
 		// add logger
 		// add more commands
 		// add list of online players
 
 	}
-	public void printString(String text) {
 
+	public void printString(String text) {
+		int i = 300;
 		msgLog.append(text);
 		msgLog.append("\n");
-		//msgLog.setPreferredSize(new Dimension(400, i += 15));
-		msgLog.getCaret().setDot(msgLog.getText().length());
-		sbrText.scrollRectToVisible(msgLog.getVisibleRect());
+		
+		list.revalidate();
 
 	}
 

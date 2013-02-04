@@ -5,22 +5,23 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 
-public class ReloadSeverEvent implements ActionListener {
+public class StopServerListener implements ActionListener {
 	private BukkitGui gui;
-	public ReloadSeverEvent(BukkitGui gui) {
+	public StopServerListener(BukkitGui gui) {
 		this.gui = gui;
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-
-		gui.msgLog.setText("");
-		Thread reload = new Thread(new Runnable(){
+		
+		Thread stop = new Thread(new Runnable(){
 
 			public void run() {
 				try {
-					
-					BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(StartBukkitServerEvent.p.getOutputStream()));
-					String input = "reload";
+					gui.stserver.setEnabled(true);
+					gui.stopserver.setEnabled(false);
+					gui.reload.setEnabled(false);
+					BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(StartBukkitServerListener.p.getOutputStream()));
+					String input = "stop";
 					input += "\n";
 					
 						writer.write(input);
@@ -32,7 +33,8 @@ public class ReloadSeverEvent implements ActionListener {
 			}
 			
 		});
-		reload.start();
+		stop.start();
+		
 	}
 
 }

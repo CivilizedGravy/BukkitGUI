@@ -70,11 +70,10 @@ public class DownloadBukkitListener {
 			for (int x = 0; x < fileData.length; x++) {
 
 				fileData[x] = dis.readByte();
-				double d = (x / (con.getContentLength())); // too small for
-															// percentage :I
+				
 
 				progressBar.setValue(x);
-				//System.out.println(x + " of " + con.getContentLength());
+				
 			}
 
 			dis.close();
