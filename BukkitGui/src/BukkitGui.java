@@ -11,11 +11,13 @@ import java.io.OutputStreamWriter;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.ProgressBarUI;
 import javax.swing.text.DefaultCaret;
 
 public class BukkitGui extends JFrame {
@@ -28,6 +30,7 @@ public class BukkitGui extends JFrame {
 	public JButton stopserver;
 	public JButton reload;
 	public JButton chatlog;
+	public JButton plugins;
 	public int scrl = 300;
 	public JPanel jp = new JPanel();
 
@@ -37,6 +40,7 @@ public class BukkitGui extends JFrame {
 	public JTextArea msgLog;
 	public JTextField cmd;
 	public JScrollPane sbrText;
+	public JProgressBar progressBar;
 
 	public BukkitGui() {
 
@@ -61,6 +65,9 @@ public class BukkitGui extends JFrame {
 				System.exit(0);
 			}
 		});
+		
+
+		
 
 		jp.setLayout(new FlowLayout());
 		list.setLayout(new FlowLayout());
@@ -73,7 +80,7 @@ public class BukkitGui extends JFrame {
 			dl.dlBukkit();
 		}
 
-		// setResizable(false);
+		 setResizable(false);
 		setSize(650, 436);
 
 		setTitle("BukkitGui");
@@ -88,6 +95,7 @@ public class BukkitGui extends JFrame {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
+		
 		msgLog = new JTextArea();
 		sbrText = new JScrollPane(msgLog);
 		cmd = new JTextField();
@@ -133,11 +141,11 @@ public class BukkitGui extends JFrame {
 		msgLog.setLineWrap(true);
 		stserver = new JButton("Start Bukkit Server");
 		stopserver = new JButton("Stop Server");
-
+		plugins = new JButton("Install Plugins");
 		reload = new JButton("Reload Server");
 		// chatlog = new JButton("ChatLog");
 		stserver.addActionListener(new StartBukkitServerListener(this));
-
+		plugins.addActionListener(new InstallPluginsListener(this));
 		stopserver.addActionListener(new StopServerListener(this));
 		reload.addActionListener(new ReloadServerListener(this));
 		// chatlog.addActionListener(cb);
@@ -148,17 +156,19 @@ public class BukkitGui extends JFrame {
 		jp.setPreferredSize(new Dimension(640, 60));
 		list.setPreferredSize(new Dimension(640, 400));
 		stserver.setPreferredSize(new Dimension(150, 50));
-
+		plugins.setPreferredSize(new Dimension(150, 50));
 		stopserver.setPreferredSize(new Dimension(150, 50));
 		reload.setPreferredSize(new Dimension(150, 50));
-		// chatlog.setPreferredSize(new Dimension(150, 50));
+		
+		// chatlog.setPreferredSize(new Dimension(150, ));
 
 		jp.add(stserver, BorderLayout.NORTH);
-		// jp.add(chatlog, BorderLayout.NORTH);
 		jp.add(stopserver, BorderLayout.NORTH);
 		jp.add(reload, BorderLayout.NORTH);
+		jp.add(plugins, BorderLayout.NORTH);
 		list.add(sbrText, BorderLayout.NORTH);
 		list.add(cmd, BorderLayout.SOUTH);
+		
 
 		getContentPane().add(jp, BorderLayout.NORTH);
 		getContentPane().add(list, BorderLayout.WEST);
