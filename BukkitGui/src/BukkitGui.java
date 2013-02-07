@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedWriter;
@@ -17,8 +18,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.plaf.ProgressBarUI;
-import javax.swing.text.DefaultCaret;
 
 public class BukkitGui extends JFrame {
 
@@ -65,9 +64,6 @@ public class BukkitGui extends JFrame {
 				System.exit(0);
 			}
 		});
-		
-
-		
 
 		jp.setLayout(new FlowLayout());
 		list.setLayout(new FlowLayout());
@@ -80,7 +76,7 @@ public class BukkitGui extends JFrame {
 			dl.dlBukkit();
 		}
 
-		 setResizable(false);
+		setResizable(false);
 		setSize(650, 436);
 
 		setTitle("BukkitGui");
@@ -95,8 +91,9 @@ public class BukkitGui extends JFrame {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		
+
 		msgLog = new JTextArea();
+	
 		sbrText = new JScrollPane(msgLog);
 		cmd = new JTextField();
 		sbrText.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -159,7 +156,7 @@ public class BukkitGui extends JFrame {
 		plugins.setPreferredSize(new Dimension(150, 50));
 		stopserver.setPreferredSize(new Dimension(150, 50));
 		reload.setPreferredSize(new Dimension(150, 50));
-		
+
 		// chatlog.setPreferredSize(new Dimension(150, ));
 
 		jp.add(stserver, BorderLayout.NORTH);
@@ -168,23 +165,29 @@ public class BukkitGui extends JFrame {
 		jp.add(plugins, BorderLayout.NORTH);
 		list.add(sbrText, BorderLayout.NORTH);
 		list.add(cmd, BorderLayout.SOUTH);
-		
 
 		getContentPane().add(jp, BorderLayout.NORTH);
 		getContentPane().add(list, BorderLayout.WEST);
-	//	list.revalidate();
-		// add memory allocation
-		// add logger
-		// add more commands
-		// add list of online players
+		
+	
+
+	}
+
+	public void printString(String text, Font font) {
+		
+		msgLog.setFont(font);
+		msgLog.append(text);
+		msgLog.append("\n");
+
+		list.revalidate();
 
 	}
 
 	public void printString(String text) {
-		int i = 300;
+	
 		msgLog.append(text);
 		msgLog.append("\n");
-		
+
 		list.revalidate();
 
 	}
@@ -193,6 +196,12 @@ public class BukkitGui extends JFrame {
 		BukkitGui bg = new BukkitGui();
 
 		bg.setVisible(true);
+		try {
+			new StartupMessages(bg);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 	}
 }

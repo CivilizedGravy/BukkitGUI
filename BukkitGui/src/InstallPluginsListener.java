@@ -37,25 +37,31 @@ public class InstallPluginsListener extends JFrame implements ActionListener {
 		}
 
 		if (diag == JFileChooser.APPROVE_OPTION) {
-			try {
-				FileInputStream in = new FileInputStream(f);
-				FileOutputStream out = new FileOutputStream(new File(
-						plugfold.toString(), fc.getName(f)));
-				byte[] buf = new byte[1024];
-				int len;
-				int i = 0;
-				while ((len = in.read(buf)) > 0) {
-					
-					out.write(buf, 0, len);
+			
+			if (getExtension(f).equalsIgnoreCase("jar")) {
+				try {
+					FileInputStream in = new FileInputStream(f);
+					FileOutputStream out = new FileOutputStream(new File(
+							plugfold.toString(), fc.getName(f)));
+					byte[] buf = new byte[1024];
+					int len;
+					int i = 0;
+					while ((len = in.read(buf)) > 0) {
 
+						out.write(buf, 0, len);
+
+					}
+					gui.printString(fc.getName(f).replace(".jar", "")
+							+ " installed, reload to take effect.");
+					in.close();
+					out.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				gui.printString(fc.getName(f).replace(".zip", "")
-						+ " installed, reload to take effect.");
-				in.close();
-				out.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			}
+			else{
+				System.out.println("Not jar");
 			}
 		}
 
