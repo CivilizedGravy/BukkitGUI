@@ -30,7 +30,7 @@ public class StartBukkitServerListener implements ActionListener {
 					gui.stserver.setEnabled(false);
 					gui.stopserver.setEnabled(true);
 					gui.reload.setEnabled(true);
-					System.out.println(new File("").getAbsolutePath());
+					System.out.println("Working in: " + new File("").getAbsolutePath());
 					String line;
 					p = Runtime.getRuntime().exec(
 							"java -jar "
@@ -79,6 +79,7 @@ public class StartBukkitServerListener implements ActionListener {
 //Recommended 
 					in.close();
 					gui.printString("Server Stopped");
+					System.out.println("Server stopped");
 				} catch (IOException e1) {
 
 					e1.printStackTrace();
