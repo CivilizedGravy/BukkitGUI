@@ -76,7 +76,10 @@ public class StartBukkitServerListener implements ActionListener {
 						}
 
 					}
-//Recommended 
+//server stopped code
+					gui.stserver.setEnabled(true);
+					gui.stopserver.setEnabled(false);
+					gui.reload.setEnabled(false);
 					in.close();
 					gui.printString("Server Stopped");
 					System.out.println("Server stopped");

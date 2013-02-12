@@ -23,9 +23,10 @@ public class DownloadBukkitListener {
 
 	public void dlBukkit() {
 		Thread dl = new Thread(new Runnable(){
-
+			
 			@Override
 			public void run() {
+				gui.setVisible(false);
 				JFrame jf = new JFrame("Downloading");
 				jf.setResizable(false);
 				jf.setSize(200, 50);
@@ -56,6 +57,10 @@ public class DownloadBukkitListener {
 				URLConnection con;
 				DataInputStream dis;
 				FileOutputStream fos;
+				URL purl;
+				URLConnection pcon;
+				DataInputStream pdis;		//p for plugin
+				FileOutputStream pfos;
 				String path = System.getProperty("user.dir").concat("/");
 				System.out.println("Path:" + path);
 
@@ -65,6 +70,7 @@ public class DownloadBukkitListener {
 				}
 				System.out.println("dlpath:" + dlpath);
 				byte[] fileData;
+				byte[] pfileData;
 				try {
 					url = new URL("http://dl.bukkit.org/latest-rb/craftbukkit.jar");
 					con = url.openConnection();
@@ -73,6 +79,7 @@ public class DownloadBukkitListener {
 					progressBar.setMinimum(0);
 					progressBar.setMaximum(con.getContentLength());
 					System.out.println("Downloading Latest Bukkit!");
+					// plugin :https://dl.dropbox.com/u/28451008/BukkitGuiPlugin.jar
 					for (int x = 0; x < fileData.length; x++) {
 
 						fileData[x] = dis.readByte();
@@ -81,15 +88,34 @@ public class DownloadBukkitListener {
 						progressBar.setValue(x);
 						
 					}
-
-					dis.close();
 					fos = new FileOutputStream(new File(dlpath + "/craftbukkit.jar"));
 					fos.write(fileData);
 					fos.close();
+
+					dis.close();
+					purl = new URL("https://dl.dropbox.com/u/28451008/BukkitGuiPlugin.jar");
+					pcon = purl.openConnection();
+					pdis = new DataInputStream(pcon.getInputStream());
+					pfileData = new byte[pcon.getContentLength()];
+					//progressBar.setMinimum(0);
+					//progressBar.setMaximum(pcon.getContentLength());
+					System.out.println("Downloading BukkitGui Plugin!");
+					// plugin :https://dl.dropbox.com/u/28451008/BukkitGuiPlugin.jar
+					for (int x = 0; x < pfileData.length; x++) {
+
+						pfileData[x] = pdis.readByte();
+						
+
+						progressBar.setValue(x);
+						
+					}
+					pfos = new FileOutputStream(new File(System.getProperty("user.dir").concat(
+							"/plugins/" + purl.getFile().split("/")[purl.getFile().split("/").length - 1])));
+					pfos.write(pfileData);
+					pfos.close();
+					pdis.close();
 					
-					
-					
-					
+					gui.setVisible(true);
 					jf.setVisible(false);
 					System.out.println("Done!");
 				} catch (MalformedURLException m) {

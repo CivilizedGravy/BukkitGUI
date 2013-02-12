@@ -17,10 +17,16 @@ public class InstallPluginsListener extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private BukkitGui gui;
 	public JFileChooser fc = new JFileChooser();
+	File plugfold;
 
 	public InstallPluginsListener(BukkitGui gui) {
 		this.gui = gui;
+		plugfold = new File(System.getProperty("user.dir").concat(
+				"/plugins/"));
 
+		if (!plugfold.exists()) {
+			plugfold.mkdir();
+		}
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
@@ -29,12 +35,7 @@ public class InstallPluginsListener extends JFrame implements ActionListener {
 		
 		File f = fc.getSelectedFile();
 		
-		File plugfold = new File(System.getProperty("user.dir").concat(
-				"/plugins/"));
-
-		if (!plugfold.exists()) {
-			plugfold.mkdir();
-		}
+		
 
 		if (diag == JFileChooser.APPROVE_OPTION) {
 			

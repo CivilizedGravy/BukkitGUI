@@ -17,9 +17,7 @@ public class StopServerListener implements ActionListener {
 
 			public void run() {
 				try {
-					gui.stserver.setEnabled(true);
-					gui.stopserver.setEnabled(false);
-					gui.reload.setEnabled(false);
+				
 					BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(StartBukkitServerListener.p.getOutputStream()));
 					String input = "stop";
 					input += "\n";

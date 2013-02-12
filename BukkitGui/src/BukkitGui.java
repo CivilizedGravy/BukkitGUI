@@ -112,7 +112,7 @@ public class BukkitGui extends JFrame {
 			}
 
 			public void keyPressed(KeyEvent p) {
-				if (p.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (p.getKeyCode() == KeyEvent.VK_ENTER ) {
 					String input = new String();
 					try {
 
@@ -120,7 +120,7 @@ public class BukkitGui extends JFrame {
 								new OutputStreamWriter(
 										StartBukkitServerListener.p
 												.getOutputStream()));
-						input = cmd.getText();
+						input = " " + cmd.getText();
 						input += "\n";
 
 						writer.write(input);
@@ -128,9 +128,15 @@ public class BukkitGui extends JFrame {
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					}catch (NullPointerException e) {
+						// TODO Auto-generated catch block
+						printString("Server not started, click the Start Server button.");
 					}
 					cmd.setText("");
 					System.out.println(input);
+				}
+				else{
+					
 				}
 			}
 		});
@@ -149,6 +155,8 @@ public class BukkitGui extends JFrame {
 
 		stopserver.setEnabled(false);
 		reload.setEnabled(false);
+		stserver.setEnabled(false);
+		printString("Checking if you Port Forwarded...");
 
 		jp.setPreferredSize(new Dimension(640, 60));
 		list.setPreferredSize(new Dimension(640, 400));
